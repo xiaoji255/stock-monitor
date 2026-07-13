@@ -7,43 +7,44 @@
     <style>
         :root { --bg: #0f0f1a; --card: #1a1a2e; --text: #e0e0e0; --sub: #999; --red: #ff4757; --green: #2ed573; --yellow: #ffa502; --border: #2a2a3e; --accent: #5352ed; }
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 70px; }
-        .header { position: sticky; top:0; z-index:100; background: var(--bg); padding: 12px 16px 6px; border-bottom:1px solid var(--border); }
-        .header h1 { font-size: 1rem; font-weight: 700; text-align: center; margin-bottom: 8px; }
-        .tabs { display: flex; gap: 4px; }
-        .tab-btn { flex: 1; padding: 9px 0; border: none; background: transparent; color: var(--sub); font-weight: 600; font-size: 0.82rem; border-radius: 10px 10px 0 0; transition: all 0.2s; cursor: pointer; }
-        .tab-btn.active { color: #fff; background: var(--card); }
-        .panel { display: none; padding: 14px 12px; animation: fadeIn 0.2s; }
-        .panel.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .card { background: var(--card); border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid var(--border); }
-        .card-title { font-size: 0.75rem; color: var(--sub); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        input, select { width: 100%; padding: 11px; margin: 4px 0; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: #fff; font-size: 0.9rem; }
-        button { width: 100%; padding: 11px; margin: 4px 0; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; font-size: 0.9rem; }
-        .btn-primary { background: var(--accent); color: #fff; }
-        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
-        .btn-sm { width: auto; padding: 6px 14px; font-size: 0.78rem; display: inline-block; }
-        .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; }
-        .tag-red { background: rgba(255,71,87,0.2); color: var(--red); }
-        .tag-green { background: rgba(46,213,115,0.2); color: var(--green); }
-        .tag-yellow { background: rgba(255,165,2,0.2); color: var(--yellow); }
-        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 0.75rem; }
-        .grid2 .lbl { color: var(--sub); }
-        .row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-        .idx-scroll { display: flex; gap: 8px; overflow-x: auto; padding: 6px 0; }
-        .idx-card { flex: 0 0 auto; min-width: 82px; background: var(--bg); border-radius: 10px; padding: 10px; text-align: center; border: 1px solid var(--border); }
-        .idx-card .name { font-size: 0.62rem; color: var(--sub); }
-        .idx-card .price { font-size: 0.88rem; font-weight: 700; }
-        .idx-card .change { font-size: 0.65rem; font-weight: 600; }
-        .result-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 10px; margin: 6px 0; border-left: 3px solid var(--accent); font-size: 0.8rem; }
-        .toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 18px; border-radius: 18px; font-size: 0.78rem; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
-        .toast.show { opacity: 1; }
-        .progress { font-size: 0.7rem; color: var(--sub); margin: 6px 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 60px; }
+        .header { position: sticky; top:0; z-index:100; background: var(--bg); padding: 10px 14px 0; border-bottom: 1px solid var(--border); }
+        .header h1 { font-size:1rem; text-align:center; margin-bottom:6px; }
+        .tabs { display:flex; gap:3px; }
+        .tab-btn { flex:1; padding:9px 0; border:none; background:transparent; color:var(--sub); font-weight:600; font-size:0.8rem; border-radius:10px 10px 0 0; cursor:pointer; }
+        .tab-btn.active { color:#fff; background:var(--card); }
+        .panel { display:none; padding:12px; animation:fadeIn 0.2s; }
+        .panel.active { display:block; }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        .card { background:var(--card); border-radius:12px; padding:13px; margin-bottom:10px; border:1px solid var(--border); }
+        .card-title { font-size:0.73rem; color:var(--sub); letter-spacing:1px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; }
+        input, select { width:100%; padding:11px; margin:4px 0; border-radius:10px; border:1px solid var(--border); background:var(--bg); color:#fff; font-size:0.9rem; outline:none; }
+        button { width:100%; padding:11px; margin:4px 0; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:0.9rem; }
+        .btn-primary { background:var(--accent); color:#fff; }
+        .btn-primary:active { transform:scale(0.97); opacity:0.8; }
+        .btn-outline { background:transparent; border:2px solid var(--accent); color:var(--accent); }
+        .btn-sm { width:auto; padding:6px 14px; font-size:0.75rem; display:inline-block; }
+        .tag { display:inline-block; padding:3px 10px; border-radius:14px; font-size:0.7rem; font-weight:700; }
+        .tag-red { background:rgba(255,71,87,0.2); color:var(--red); }
+        .tag-green { background:rgba(46,213,115,0.2); color:var(--green); }
+        .tag-yellow { background:rgba(255,165,2,0.2); color:var(--yellow); }
+        .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:5px; font-size:0.75rem; }
+        .grid2 .lbl { color:var(--sub); }
+        .row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .idx-scroll { display:flex; gap:7px; overflow-x:auto; padding:5px 0; }
+        .idx-card { flex:0 0 auto; min-width:80px; background:var(--bg); border-radius:10px; padding:10px; text-align:center; border:1px solid var(--border); }
+        .idx-card .name { font-size:0.6rem; color:var(--sub); }
+        .idx-card .price { font-size:0.85rem; font-weight:700; margin:2px 0; }
+        .idx-card .change { font-size:0.64rem; font-weight:600; }
+        .result-box { background:rgba(255,255,255,0.03); border-radius:10px; padding:9px; margin:5px 0; border-left:3px solid var(--accent); font-size:0.78rem; }
+        .toast { position:fixed; top:16px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:8px 18px; border-radius:18px; font-size:0.76rem; z-index:999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
+        .toast.show { opacity:1; }
+        .progress { font-size:0.68rem; color:var(--sub); margin:6px 0; }
+        .empty { text-align:center; padding:20px; color:var(--sub); font-size:0.7rem; }
     </style>
 </head>
 <body>
 <div class="toast" id="toast"></div>
-
 <div class="header">
     <h1>📈 股票红绿灯</h1>
     <div class="tabs">
@@ -65,10 +66,10 @@
         <div class="card-title">🔔 定时监测</div>
         <input type="text" id="monitorCodeInput" placeholder="添加监测代码">
         <button class="btn-primary btn-sm" onclick="addMonitor()">添加</button>
-        <div id="monitorList" style="margin: 8px 0;"></div>
-        <div style="display:flex; gap: 8px; align-items: center;">
+        <div id="monitorList" style="margin:8px 0;"></div>
+        <div style="display:flex;gap:8px;align-items:center;">
             <button class="btn-primary btn-sm" id="startMonitorBtn" onclick="startMonitor()">▶ 开启通知</button>
-            <span style="font-size:0.7rem; color:var(--sub);" id="monitorStatus">未启动</span>
+            <span style="font-size:0.7rem;color:var(--sub);" id="monitorStatus">未启动</span>
         </div>
     </div>
 </div>
@@ -81,7 +82,7 @@
     </div>
     <div class="card">
         <div class="card-title">🔥 行业板块 TOP15 <button class="btn-outline btn-sm" onclick="loadSectors()">刷新</button></div>
-        <div id="sectorArea" style="max-height:350px; overflow-y:auto;">加载中...</div>
+        <div id="sectorArea" style="max-height:350px;overflow-y:auto;">加载中...</div>
     </div>
 </div>
 
@@ -95,47 +96,39 @@
         <div id="scanResult"></div>
     </div>
     <div class="card">
-        <div class="card-title">📊 跟踪列表</div>
-        <button class="btn-outline btn-sm" onclick="showTrackList()">查看列表</button>
-        <div id="trackListArea" style="margin-top:8px;"></div>
+        <div class="card-title">📊 跟踪列表 <button class="btn-outline btn-sm" onclick="showTrackList()">刷新</button></div>
+        <div id="trackListArea"></div>
     </div>
     <div class="card">
-        <div class="card-title">📈 复盘</div>
-        <button class="btn-outline btn-sm" onclick="reviewPicks()">查看历史表现</button>
-        <div id="reviewResult" style="margin-top:8px;"></div>
+        <div class="card-title">📈 复盘 <button class="btn-outline btn-sm" onclick="reviewPicks()">查看</button></div>
+        <div id="reviewResult"></div>
     </div>
 </div>
 
 <script>
 (function() {
-    // ======================= 工具函数 =======================
     const $ = s => document.querySelector(s);
-    function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._id); t._id = setTimeout(() => t.classList.remove('show'), 2000); }
+    function toast(m) { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._id); t._id = setTimeout(() => t.classList.remove('show'), 2000); }
 
-    // ======================= 网络请求（带代理回退） =======================
-    const DIRECT_API = 'https://push2.eastmoney.com/api/qt';
-    const KLINE_API = 'https://push2his.eastmoney.com/api/qt/stock/kline/get';
-    const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
-    async function fetchWithProxy(url, timeout = 12000) {
+    // ══════════ API 请求 ══════════
+    async function fetchJSON(url, timeout = 12000) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), timeout);
         try {
-            const ctrl = new AbortController();
-            const timer = setTimeout(() => ctrl.abort(), timeout);
-            const resp = await fetch(url, { headers: { 'Accept': 'application/json', 'Referer': 'https://quote.eastmoney.com/' }, signal: ctrl.signal });
+            const resp = await fetch(url, {
+                headers: { 'Accept': 'application/json', 'Referer': 'https://quote.eastmoney.com/' },
+                signal: ctrl.signal
+            });
             clearTimeout(timer);
             if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
             return await resp.json();
         } catch (e) {
-            // 直接请求失败，尝试 CORS 代理
-            const ctrl2 = new AbortController();
-            const timer2 = setTimeout(() => ctrl2.abort(), timeout + 5000);
-            const resp2 = await fetch(CORS_PROXY + encodeURIComponent(url), { signal: ctrl2.signal });
-            clearTimeout(timer2);
-            if (!resp2.ok) throw new Error('代理请求失败');
-            return await resp2.json();
+            clearTimeout(timer);
+            if (e.name === 'AbortError') throw new Error('请求超时');
+            throw e;
         }
     }
 
-    // ======================= 证券代码解析 =======================
     function getSecid(raw) {
         raw = raw.trim().toLowerCase();
         if (raw.startsWith('sh')) return '1.' + raw.slice(2);
@@ -145,29 +138,22 @@
         return (pure.startsWith('6') || pure.startsWith('9')) ? '1.' + pure : '0.' + pure;
     }
 
-    // ======================= 数据获取 =======================
     async function getQuote(rawCode) {
         const secid = getSecid(rawCode);
-        const data = await fetchWithProxy(`${DIRECT_API}/stock/get?secid=${secid}&fields=f43,f44,f45,f46,f47,f48,f57,f58,f60,f116,f162,f167,f168,f169,f170`);
+        const data = await fetchJSON(`https://push2.eastmoney.com/api/qt/stock/get?secid=${secid}&fields=f43,f44,f45,f46,f47,f48,f57,f58,f60,f116,f162,f167,f168,f169,f170`);
         if (!data || !data.data || !data.data.f58) throw new Error('未找到该证券');
         const d = data.data;
         return {
-            code: d.f57 || rawCode,
-            name: d.f58,
-            price: d.f43 / 100,
-            open: d.f46 / 100,
-            preClose: d.f60 / 100,
-            high: d.f44 / 100,
-            low: d.f45 / 100,
-            volume: d.f47,
-            turnover: d.f168 / 100,
-            changePercent: d.f170 / 100
+            code: d.f57 || rawCode, name: d.f58,
+            price: d.f43 / 100, open: d.f46 / 100, preClose: d.f60 / 100,
+            high: d.f44 / 100, low: d.f45 / 100, volume: d.f47,
+            turnover: d.f168 / 100, changePercent: d.f170 / 100
         };
     }
 
     async function getKline(rawCode, count = 200) {
         const secid = getSecid(rawCode);
-        const data = await fetchWithProxy(`${KLINE_API}?secid=${secid}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57&klt=101&fqt=1&end=20500101&lmt=${count}`);
+        const data = await fetchJSON(`https://push2his.eastmoney.com/api/qt/stock/kline/get?secid=${secid}&fields1=f1,f2,f3,f4,f5,f6&fields2=f51,f52,f53,f54,f55,f56,f57&klt=101&fqt=1&end=20500101&lmt=${count}`);
         if (!data || !data.data || !data.data.klines) throw new Error('K线获取失败');
         return data.data.klines.map(l => {
             const p = l.split(',');
@@ -175,8 +161,9 @@
         });
     }
 
-    // ======================= 技术指标 =======================
+    // ══════════ 技术指标 ══════════
     function SMA(arr, n) { const r = []; let s = 0; for (let i = 0; i < arr.length; i++) { s += arr[i]; if (i >= n - 1) { r.push(s / n); s -= arr[i - n + 1]; } else r.push(null); } return r; }
+    function EMA(arr, n) { const r = []; const k = 2 / (n + 1); let prev = arr.slice(0, n).reduce((a, b) => a + b, 0) / n; for (let i = 0; i < arr.length; i++) { if (i < n - 1) { r.push(null); continue; } if (i === n - 1) r.push(prev); else { prev = arr[i] * k + prev * (1 - k); r.push(prev); } } return r; }
     function RSI(kl, n = 14) {
         const c = kl.map(k => k.close), g = [], l = [];
         for (let i = 1; i < c.length; i++) { const d = c[i] - c[i - 1]; g.push(d > 0 ? d : 0); l.push(d < 0 ? -d : 0); }
@@ -187,10 +174,8 @@
     }
     function BIAS(kl, n = 20) { const c = kl.map(k => k.close), m = SMA(c, n); return c.map((v, i) => m[i] ? ((v - m[i]) / m[i] * 100) : null); }
     function MACD(kl, s = 12, l = 26, m = 9) {
-        const c = kl.map(k => k.close);
-        const EMA = (arr, n) => { const r = [], k = 2 / (n + 1); let prev = arr.slice(0, n).reduce((a, b) => a + b, 0) / n; for (let i = 0; i < arr.length; i++) { if (i < n - 1) { r.push(null); continue; } if (i === n - 1) r.push(prev); else { prev = arr[i] * k + prev * (1 - k); r.push(prev); } } return r; };
-        const emaS = EMA(c, s), emaL = EMA(c, l);
-        const dif = c.map((_, i) => (i >= l - 1 && emaS[i] && emaL[i]) ? emaS[i] - emaL[i] : null);
+        const c = kl.map(k => k.close), es = EMA(c, s), el = EMA(c, l);
+        const dif = c.map((_, i) => (i >= l - 1 && es[i] && el[i]) ? es[i] - el[i] : null);
         const valid = dif.filter(v => v !== null);
         const deaVals = EMA(valid, m);
         const dea = new Array(dif.length).fill(null);
@@ -199,17 +184,20 @@
         return { dif, dea };
     }
 
-    // ======================= 红绿灯分析 =======================
+    // ══════════ 红绿灯 ══════════
     function analyzeSignal(kl) {
-        if (kl.length < 60) return { conc: '⚪ 数据不足', reds: [], greens: [], rsi: '--', bias: '--' };
-        const closes = kl.map(k => k.close), last = kl[kl.length - 1], prev = kl[kl.length - 2];
+        if (kl.length < 60) return { conc: '⚪ 数据不足（需≥60根K线）', reds: [], greens: [], rsi: '--', bias: '--' };
+        const closes = kl.map(k => k.close), volumes = kl.map(k => k.volume);
+        const last = kl[kl.length - 1], prev = kl[kl.length - 2];
         const dc = (last.close - prev.close) / prev.close * 100;
-        const ma5 = SMA(closes, 5), ma20 = SMA(closes, 20), ma60 = SMA(closes, 60);
+        const ma5 = SMA(closes, 5), ma10 = SMA(closes, 10), ma20 = SMA(closes, 20), ma60 = SMA(closes, 60);
         const rv = RSI(kl, 14), bv = BIAS(kl, 20), md = MACD(kl);
         const lr = rv[rv.length - 1], lb = bv[bv.length - 1];
         const ldif = md.dif[md.dif.length - 1], ldea = md.dea[md.dea.length - 1];
+        const prevDif = md.dif[md.dif.length - 2], prevDea = md.dea[md.dea.length - 2];
         const reds = [], greens = [];
 
+        // 红灯
         if (dc > 3) reds.push(`前日涨幅过大(${dc.toFixed(2)}%)`);
         const c5 = kl.length >= 6 ? (last.close - kl[kl.length - 6].close) / kl[kl.length - 6].close * 100 : 0;
         if (c5 > 10) reds.push(`近5日涨幅过大(${c5.toFixed(2)}%)`);
@@ -219,12 +207,14 @@
         const body = Math.abs(last.close - last.open), us = last.high - Math.max(last.close, last.open);
         if (us > body * 2 && body > 0 && last.close < prev.close) reds.push('长上影冲高回落');
 
-        if (ma5[ma5.length - 1] > ma20[ma20.length - 1] && ma20[ma20.length - 1] > ma60[ma60.length - 1]) greens.push('均线多头排列');
+        // 绿灯
+        if (ma5[ma5.length - 1] > ma10[ma10.length - 1] && ma10[ma10.length - 1] > ma20[ma20.length - 1] && ma20[ma20.length - 1] > ma60[ma60.length - 1]) greens.push('均线多头排列');
         if (lr !== null && lr >= 30 && lr <= 60) greens.push('RSI健康(30-60)');
         if (ldif !== null && ldea !== null && ldif > ldea) greens.push('MACD多头');
+        if (prevDif !== null && prevDea !== null && ldif !== null && ldea !== null && prevDif <= prevDea && ldif > ldea) greens.push('MACD金叉');
         if (lb !== null && lb >= -5 && lb <= 3) greens.push('乖离率合理');
-        const vol5 = SMA(kl.map(k => k.volume), 5);
-        if (vol5[vol5.length - 1] && kl[kl.length - 1].volume > vol5[vol5.length - 1] * 1.2 && last.close > last.open) greens.push('放量上涨');
+        const mv5 = SMA(volumes, 5);
+        if (mv5[mv5.length - 1] && volumes[volumes.length - 1] > mv5[mv5.length - 1] * 1.2 && last.close > last.open) greens.push('放量上涨');
 
         let conc;
         if (reds.length > 0) conc = '🔴 不建议买入';
@@ -233,11 +223,11 @@
         return { conc, reds, greens, rsi: lr?.toFixed(1) || '--', bias: lb?.toFixed(2) || '--' };
     }
 
-    // ======================= 分析面板 UI =======================
+    // ══════════ 分析 ══════════
     async function analyzeStock() {
         const code = $('#codeInput').value.trim();
         if (!code) return toast('请输入代码');
-        $('#analyzeResult').innerHTML = '⏳ 分析中...';
+        $('#analyzeResult').innerHTML = '<div style="text-align:center;color:var(--sub);">⏳ 分析中...</div>';
         try {
             const quote = await getQuote(code);
             const kl = await getKline(code, 200);
@@ -246,37 +236,37 @@
             const sgn = quote.changePercent >= 0 ? '+' : '';
             $('#analyzeResult').innerHTML = `
                 <div style="margin-bottom:6px;"><b>${quote.name}</b> (${quote.code})</div>
-                <div style="font-size:2.2rem; font-weight:800;">${quote.price.toFixed(2)}</div>
+                <div style="font-size:2.2rem;font-weight:800;">${quote.price.toFixed(2)}</div>
                 <span class="tag ${cls}">${sgn}${quote.changePercent.toFixed(2)}%</span>
                 <div class="grid2" style="margin-top:10px;">
                     <div><span class="lbl">今开</span> ${quote.open.toFixed(2)}</div>
                     <div><span class="lbl">昨收</span> ${quote.preClose.toFixed(2)}</div>
                     <div><span class="lbl">最高</span> ${quote.high.toFixed(2)}</div>
                     <div><span class="lbl">最低</span> ${quote.low.toFixed(2)}</div>
-                    <div><span class="lbl">成交量</span> ${(quote.volume/10000).toFixed(1)}万手</div>
-                    <div><span class="lbl">RSI(14)</span> ${sig.rsi}</div>
+                    <div><span class="lbl">成交量</span> ${(quote.volume/10000).toFixed(1)}万</div>
+                    <div><span class="lbl">换手率</span> ${quote.turnover.toFixed(2)}%</div>
                 </div>
-                <div style="margin-top:12px; font-size:1.1rem; font-weight:700;">${sig.conc}</div>
-                ${sig.reds.length ? `<div style="color:var(--red); font-size:0.78rem;">⚠️ ${sig.reds.join(' | ')}</div>` : ''}
-                ${sig.greens.length ? `<div style="color:var(--green); font-size:0.78rem;">✅ ${sig.greens.join(' | ')}</div>` : ''}
-                <div style="margin-top:8px; font-size:0.6rem; color:var(--sub);">数据来源：东方财富（代理回退已启用）</div>
+                <div style="margin-top:10px;font-size:0.75rem;color:var(--sub);">RSI(14): ${sig.rsi} | BIAS(20): ${sig.bias}%</div>
+                <div style="margin-top:10px;font-size:1.1rem;font-weight:700;">${sig.conc}</div>
+                ${sig.reds.length ? `<div style="color:var(--red);font-size:0.76rem;margin-top:4px;">⚠️ ${sig.reds.join(' | ')}</div>` : ''}
+                ${sig.greens.length ? `<div style="color:var(--green);font-size:0.76rem;margin-top:4px;">✅ ${sig.greens.join(' | ')}</div>` : ''}
+                <div style="margin-top:8px;font-size:0.6rem;color:var(--sub);">数据来源：东方财富</div>
             `;
         } catch (e) {
-            $('#analyzeResult').innerHTML = `<div style="color:var(--red);">❌ ${e.message}<br><small>请检查代码或切换网络后重试</small></div>`;
+            $('#analyzeResult').innerHTML = `<div style="color:var(--red);">❌ ${e.message}<br><small>请检查代码或网络连接</small></div>`;
         }
     }
 
-    // ======================= 定时监测 =======================
-    const MONITOR_KEY = 'monitor_list_v8';
-    let monitorList = [];
-    let monitorTimer = null;
-    function loadMonitor() { try { monitorList = JSON.parse(localStorage.getItem(MONITOR_KEY) || '[]'); } catch(e) { monitorList = []; } renderMonitor(); }
+    // ══════════ 监测 ══════════
+    const MONITOR_KEY = 'monitor_list_v9';
+    let monitorList = [], monitorTimer = null;
+    function loadMonitor() { try { monitorList = JSON.parse(localStorage.getItem(MONITOR_KEY) || '[]'); } catch (e) { monitorList = []; } renderMonitor(); }
     function saveMonitor() { localStorage.setItem(MONITOR_KEY, JSON.stringify(monitorList)); }
     function renderMonitor() {
         const list = $('#monitorList');
-        list.innerHTML = monitorList.length ? monitorList.map((m, i) => `<div class="row"><span>${m.name} (${m.code})</span><button class="btn-outline btn-sm" onclick="removeMonitor(${i})">移除</button></div>`).join('') : '<div style="font-size:0.7rem; color:var(--sub);">暂无监测</div>';
+        list.innerHTML = monitorList.length ? monitorList.map((m, i) => `<div class="row"><span>${m.name} (${m.code})</span><button class="btn-outline btn-sm" onclick="window._rmMon(${i})">移除</button></div>`).join('') : '<div class="empty">暂无监测股票</div>';
     }
-    window.removeMonitor = (i) => { monitorList.splice(i, 1); saveMonitor(); renderMonitor(); toast('已移除'); };
+    window._rmMon = (i) => { monitorList.splice(i, 1); saveMonitor(); renderMonitor(); toast('已移除'); };
     async function addMonitor() {
         const code = $('#monitorCodeInput').value.trim();
         if (!code) return toast('请输入代码');
@@ -290,10 +280,14 @@
         } catch (e) { toast('添加失败: ' + e.message); }
     }
     function startMonitor() {
-        if (monitorList.length === 0) return toast('请先添加监测股票');
+        if (monitorList.length === 0) return toast('请先添加股票');
         if (!('Notification' in window)) return toast('浏览器不支持通知');
-        if (Notification.permission === 'default') { Notification.requestPermission().then(p => { if (p === 'granted') startMonitorInternal(); else toast('通知权限被拒绝'); }); }
-        else startMonitorInternal();
+        if (Notification.permission === 'default') {
+            Notification.requestPermission().then(p => {
+                if (p === 'granted') startMonitorInternal();
+                else toast('通知权限被拒绝');
+            });
+        } else startMonitorInternal();
     }
     function startMonitorInternal() {
         if (monitorTimer) return;
@@ -303,7 +297,7 @@
                     const kl = await getKline(m.code, 200);
                     const sig = analyzeSignal(kl);
                     if (sig.conc.includes('🟢')) {
-                        new Notification(`🟢 ${m.name} 买入信号`, { body: `当前可能满足买入条件，请及时检查` });
+                        new Notification(`🟢 ${m.name} 买入信号`, { body: `请检查是否满足买入条件`, vibrate: [200, 100, 200] });
                         toast(`🟢 ${m.name} 买入机会`);
                     }
                 } catch (e) {}
@@ -314,7 +308,7 @@
     }
     loadMonitor();
 
-    // ======================= 市场面板 =======================
+    // ══════════ 市场 ══════════
     async function loadIndexes() {
         const idxs = [
             { id: '1.000001', name: '上证' }, { id: '0.399001', name: '深证' }, { id: '0.399006', name: '创业板' },
@@ -323,7 +317,7 @@
         let html = '';
         for (const i of idxs) {
             try {
-                const data = await fetchWithProxy(`${DIRECT_API}/stock/get?secid=${i.id}&fields=f43,f170,f58`, 6000);
+                const data = await fetchJSON(`https://push2.eastmoney.com/api/qt/stock/get?secid=${i.id}&fields=f43,f170,f58`, 6000);
                 if (data && data.data) {
                     const d = data.data, p = d.f43 / 100, chg = d.f170 / 100, color = chg >= 0 ? 'var(--red)' : 'var(--green)';
                     html += `<div class="idx-card"><div class="name">${d.f58 || i.name}</div><div class="price" style="color:${color}">${p.toFixed(2)}</div><div class="change" style="color:${color}">${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%</div></div>`;
@@ -334,7 +328,7 @@
     }
     async function loadSectors() {
         try {
-            const data = await fetchWithProxy(`https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=15&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m:90+t:2&fields=f2,f3,f14`);
+            const data = await fetchJSON('https://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=15&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m:90+t:2&fields=f2,f3,f14');
             if (data && data.data && data.data.diff) {
                 let html = '';
                 data.data.diff.forEach(d => {
@@ -342,22 +336,22 @@
                     html += `<div class="row"><span>${d.f14}</span><span style="color:${color};">${chg >= 0 ? '+' : ''}${chg.toFixed(2)}%</span></div>`;
                 });
                 $('#sectorArea').innerHTML = html;
-            }
+            } else $('#sectorArea').innerHTML = '暂无数据';
         } catch (e) { $('#sectorArea').innerHTML = '加载失败，请点击刷新'; }
     }
 
-    // ======================= 全市场扫描 =======================
+    // ══════════ 全市场扫描 ══════════
     let scanAbort = false;
     async function startFullScan() {
         scanAbort = false;
         $('#scanBtn').style.display = 'none';
         $('#stopScanBtn').style.display = 'block';
-        $('#scanProgress').textContent = '正在获取股票列表...';
+        $('#scanProgress').textContent = '正在获取股票列表（市值>100亿，股价≤150元）...';
         let allStocks = [];
         for (let page = 1; page <= 8; page++) {
             if (scanAbort) break;
             try {
-                const data = await fetchWithProxy(`https://push2.eastmoney.com/api/qt/clist/get?pn=${page}&pz=400&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m:0+t:6,m:0+t:80,m:1+t:2,m:1+t:23&fields=f2,f3,f12,f14,f20`);
+                const data = await fetchJSON(`https://push2.eastmoney.com/api/qt/clist/get?pn=${page}&pz=400&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m:0+t:6,m:0+t:80,m:1+t:2,m:1+t:23&fields=f2,f3,f12,f14,f20`);
                 if (data && data.data && data.data.diff) {
                     const filtered = data.data.diff.filter(d => d.f2 / 100 <= 150 && d.f20 >= 100e8);
                     allStocks.push(...filtered.map(d => ({ code: d.f12, name: d.f14, price: d.f2 / 100, chg: d.f3 })));
@@ -367,7 +361,7 @@
         }
         if (scanAbort) { resetScan(); return; }
         const unique = Array.from(new Map(allStocks.map(s => [s.code, s])).values());
-        $('#scanProgress').textContent = `共 ${unique.length} 只符合条件，开始检测信号...`;
+        $('#scanProgress').textContent = `共 ${unique.length} 只符合条件，开始逐只检测信号...`;
         let candidates = [];
         for (let i = 0; i < unique.length; i++) {
             if (scanAbort) break;
@@ -376,37 +370,54 @@
             try {
                 const kl = await getKline(s.code, 200);
                 const sig = analyzeSignal(kl);
-                if (sig.conc.includes('🟢')) candidates.push({ ...s, rsi: sig.rsi });
+                if (sig.conc.includes('🟢')) candidates.push({ ...s, rsi: sig.rsi, bias: sig.bias });
             } catch (e) {}
             await new Promise(r => setTimeout(r, 150));
         }
         if (scanAbort) { resetScan(); return; }
-        let html = candidates.length === 0 ? '<div style="text-align:center;">当前没有符合买入条件的股票</div>' : '';
-        candidates.sort((a, b) => a.price - b.price);
-        candidates.forEach(c => {
-            html += `<div class="result-box"><b>${c.name}</b> (${c.code}) 价格:${c.price.toFixed(2)} 涨幅:${c.chg.toFixed(2)}% RSI:${c.rsi}</div>`;
-        });
+        let html = '';
+        if (candidates.length === 0) {
+            html = '<div class="empty">当前没有符合买入条件的股票</div>';
+        } else {
+            candidates.sort((a, b) => a.price - b.price);
+            candidates.forEach(c => {
+                html += `<div class="result-box"><b>${c.name}</b> (${c.code}) 价格:${c.price.toFixed(2)} 涨幅:${c.chg.toFixed(2)}% RSI:${c.rsi}<br><button class="btn-outline btn-sm" onclick="window._addTrack('${c.code}','${c.name}',${c.price})">跟踪</button></div>`;
+            });
+        }
         $('#scanResult').innerHTML = html;
         resetScan();
     }
     function stopScan() { scanAbort = true; }
     function resetScan() { $('#scanBtn').style.display = 'block'; $('#stopScanBtn').style.display = 'none'; $('#scanProgress').textContent = ''; }
 
-    // ======================= 跟踪与复盘 =======================
-    const TREND_KEY = 'trend_picks_v8';
-    function getPicks() { try { return JSON.parse(localStorage.getItem(TREND_KEY) || '[]'); } catch(e) { return []; } }
+    // ══════════ 跟踪 & 复盘 ══════════
+    const TREND_KEY = 'trend_picks_v9';
+    function getPicks() { try { return JSON.parse(localStorage.getItem(TREND_KEY) || '[]'); } catch (e) { return []; } }
     function savePicks(p) { localStorage.setItem(TREND_KEY, JSON.stringify(p)); }
+    window._addTrack = (code, name, price) => {
+        const picks = getPicks();
+        if (picks.find(p => p.code === code && !p.buyDate)) return toast('已在跟踪中');
+        picks.push({ id: Date.now(), code, name, price, scanDate: new Date().toISOString().slice(0, 10), buyDate: null, buyPrice: null, lastPrice: null });
+        savePicks(picks);
+        toast('已跟踪 ' + name);
+    };
     function showTrackList() {
         const picks = getPicks();
         const tracking = picks.filter(p => !p.buyDate);
         const holding = picks.filter(p => p.buyDate);
         let html = '';
-        if (tracking.length) { html += '<div style="font-weight:bold; margin-bottom:4px;">🔍 待买入</div>'; tracking.forEach(p => html += `<div class="result-box">${p.name}(${p.code}) 推荐价:${p.price} <button class="btn-outline btn-sm" onclick="markBought('${p.id}')">已买入</button></div>`); }
-        if (holding.length) { html += '<div style="font-weight:bold; margin-bottom:4px;">📌 已买入</div>'; holding.forEach(p => html += `<div class="result-box">${p.name}(${p.code}) 买入价:${p.buyPrice} 推荐价:${p.price}</div>`); }
-        if (!html) html = '<div style="text-align:center; color:var(--sub);">暂无跟踪股票</div>';
+        if (tracking.length) {
+            html += '<div style="font-weight:bold;margin-bottom:4px;">🔍 待买入</div>';
+            tracking.forEach(p => html += `<div class="result-box">${p.name}(${p.code}) 推荐价:${p.price} <button class="btn-outline btn-sm" onclick="window._markBuy('${p.id}')">已买入</button></div>`);
+        }
+        if (holding.length) {
+            html += '<div style="font-weight:bold;margin:8px 0 4px;">📌 已买入</div>';
+            holding.forEach(p => html += `<div class="result-box">${p.name}(${p.code}) 买入价:${p.buyPrice} 推荐价:${p.price}</div>`);
+        }
+        if (!html) html = '<div class="empty">暂无跟踪股票</div>';
         $('#trackListArea').innerHTML = html;
     }
-    window.markBought = (id) => {
+    window._markBuy = (id) => {
         const picks = getPicks();
         const p = picks.find(x => x.id == id);
         if (!p) return;
@@ -427,13 +438,13 @@
                 if (!p.lastPrice) { const q = await getQuote(p.code); p.lastPrice = q.price; p.change = ((q.price - p.price) / p.price * 100); }
             } catch (e) {}
             const c = p.change, color = c >= 0 ? 'var(--red)' : 'var(--green)';
-            html += `<div class="result-box">${p.name}(${p.code}) 推荐价:${p.price} 现价:${p.lastPrice || '--'} <span style="color:${color}">${c !== undefined ? c.toFixed(2) + '%' : ''}</span></div>`;
+            html += `<div class="result-box">${p.name}(${p.code}) 推荐价:${p.price} 现价:${p.lastPrice || '--'} <span style="color:${color}">${c !== undefined ? (c >= 0 ? '+' : '') + c.toFixed(2) + '%' : ''}</span></div>`;
         }
         savePicks(picks);
-        $('#reviewResult').innerHTML = html;
+        $('#reviewResult').innerHTML = html || '<div class="empty">暂无数据</div>';
     }
 
-    // ======================= 导航 =======================
+    // ══════════ 导航 ══════════
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', function () {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
