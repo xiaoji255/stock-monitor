@@ -2,437 +2,147 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>📈 股票红绿灯</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 股票红绿灯 · 诊断版</title>
     <style>
-        :root { --bg:#0f0f1a; --card:#1a1a2e; --text:#e0e0e0; --sub:#999; --red:#ff4757; --green:#2ed573; --yellow:#ffa502; --border:#2a2a3e; --radius:12px; --accent:#5352ed; }
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--text); padding-bottom:60px; }
-        .header { position:sticky; top:0; z-index:100; background:var(--bg); padding:12px 16px 8px; border-bottom:1px solid var(--border); }
-        .tabs { display:flex; gap:4px; margin-top:8px; }
-        .tab-btn { flex:1; padding:8px; background:transparent; border:none; color:var(--sub); font-weight:600; border-radius:8px 8px 0 0; font-size:0.85rem; }
-        .tab-btn.active { background:var(--card); color:#fff; }
-        .panel { display:none; padding:16px; }
-        .panel.active { display:block; }
-        .card { background:var(--card); border-radius:var(--radius); padding:14px; margin-bottom:12px; }
-        input { width:100%; padding:12px; margin:4px 0; border-radius:10px; border:1px solid var(--border); background:var(--bg); color:#fff; font-size:0.95rem; }
-        button { width:100%; padding:12px; margin:4px 0; border-radius:10px; background:var(--accent); color:#fff; font-weight:bold; border:none; font-size:0.95rem; cursor:pointer; }
-        button.outline { background:transparent; border:2px solid var(--accent); color:var(--accent); }
-        button.sm { width:auto; padding:6px 14px; font-size:0.8rem; }
-        .tag { display:inline-block; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600; }
-        .tag-red { background:rgba(255,71,87,0.2); color:var(--red); }
-        .tag-green { background:rgba(46,213,115,0.2); color:var(--green); }
-        .tag-yellow { background:rgba(255,165,2,0.2); color:var(--yellow); }
-        .row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05); align-items:center; }
-        .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
-        .grid2 .item { padding:4px 0; font-size:0.78rem; }
-        .grid2 .lbl { color:var(--sub); }
-        .index-scroll { display:flex; gap:6px; overflow-x:auto; padding:6px 0; }
-        .idx-card { flex:0 0 auto; min-width:80px; background:var(--bg); border-radius:10px; padding:8px; text-align:center; border:1px solid var(--border); }
-        .idx-card .n { font-size:0.65rem; color:var(--sub); }
-        .idx-card .p { font-size:0.9rem; font-weight:700; margin:2px 0; }
-        .idx-card .c { font-size:0.7rem; font-weight:600; }
-        .result-box { background:rgba(255,255,255,0.03); border-radius:10px; padding:10px; margin:6px 0; border-left:3px solid var(--accent); }
-        .toast { position:fixed; top:16px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:8px 18px; border-radius:20px; font-size:0.8rem; z-index:999; opacity:0; transition:opacity 0.3s; pointer-events:none; }
-        .toast.show { opacity:1; }
+        body { font-family:system-ui,-apple-system,sans-serif; background:#0f0f1a; color:#e0e0e0; padding:16px; }
+        .card { background:#1a1a2e; border-radius:12px; padding:14px; margin-bottom:12px; border:1px solid #2a2a3e; }
+        input { width:100%; padding:12px; border-radius:10px; border:1px solid #2a2a3e; background:#0f0f1a; color:#fff; font-size:1rem; margin:6px 0; }
+        button { width:100%; padding:12px; background:#5352ed; color:#fff; border:none; border-radius:10px; font-weight:bold; font-size:1rem; margin:4px 0; }
+        .log { background:#000; color:#0f0; padding:10px; border-radius:8px; font-family:monospace; font-size:0.75rem; max-height:300px; overflow-y:auto; white-space:pre-wrap; }
+        .ok { color:#2ed573; } .err { color:#ff4757; } .info { color:#ffa502; }
     </style>
 </head>
 <body>
-<div class="toast" id="toast"></div>
+    <h2 style="margin-bottom:12px;">📈 诊断模式</h2>
 
-<div class="header">
-    <div style="font-weight:700;font-size:1.1rem;">📈 股票红绿灯</div>
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="analyze">🚦 分析</button>
-        <button class="tab-btn" data-tab="market">🔥 市场</button>
-        <button class="tab-btn" data-tab="pick">📈 选股</button>
+    <div class="card">
+        <div style="font-weight:bold;margin-bottom:6px;">🔍 输入代码测试</div>
+        <input type="text" id="codeInput" placeholder="如 600519" value="600519">
+        <button onclick="testCode()">测试</button>
+        <div id="testResult" style="margin-top:8px;"></div>
     </div>
-</div>
 
-<!-- ══════════ 分析面板 ══════════ -->
-<div class="panel active" id="panel-analyze">
     <div class="card">
-        <input type="text" id="codeInput" placeholder="输入代码：600519 / 510050 / 000001" autocomplete="off" inputmode="text">
-        <button onclick="analyzeStock()">🔍 开始分析</button>
-        <div id="analyzeResult" style="margin-top:12px;"></div>
+        <div style="font-weight:bold;margin-bottom:6px;">📋 请求日志</div>
+        <button onclick="clearLog()" style="width:auto;padding:6px 14px;font-size:0.8rem;">清空</button>
+        <div class="log" id="logArea"></div>
     </div>
-</div>
-
-<!-- ══════════ 市场面板 ══════════ -->
-<div class="panel" id="panel-market">
-    <div class="card">
-        <div class="row">
-            <span style="font-weight:600;">🌍 大盘指数</span>
-            <button class="outline sm" onclick="loadIndexes()">刷新</button>
-        </div>
-        <div class="index-scroll" id="indexArea">加载中...</div>
-    </div>
-    <div class="card">
-        <div class="row">
-            <span style="font-weight:600;">🔥 行业板块 TOP15</span>
-            <button class="outline sm" onclick="loadSectors()">刷新</button>
-        </div>
-        <div id="sectorArea" style="max-height:350px;overflow-y:auto;">加载中...</div>
-    </div>
-</div>
-
-<!-- ══════════ 选股面板 ══════════ -->
-<div class="panel" id="panel-pick">
-    <div class="card">
-        <div style="margin-bottom:6px;font-weight:600;">📋 全市场扫描（市值>100亿 & 股价<150元）</div>
-        <button id="scanBtn" onclick="startScan()">🔍 开始全市场扫描</button>
-        <button id="stopBtn" class="outline" onclick="stopScan()" style="display:none;">⏹ 停止</button>
-        <div id="scanProgress" style="margin-top:8px;font-size:0.8rem;color:var(--sub);"></div>
-        <div id="scanResult"></div>
-    </div>
-</div>
 
 <script>
-// ======================= 工具 =======================
-const $ = s => document.querySelector(s);
-function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._tid); t._tid=setTimeout(()=>t.classList.remove('show'),2000); }
-
-// ======================= JSONP 请求（新浪/腾讯接口，天然跨域） =======================
-function jsonp(url, timeout=8000){
-    return new Promise((resolve, reject) => {
-        const callback = '_cb_' + Date.now() + Math.random().toString(36).slice(2);
-        window[callback] = (data) => { resolve(data); cleanup(); };
-        const script = document.createElement('script');
-        script.src = url + (url.includes('?')?'&':'?') + 'callback=' + callback;
-        script.onerror = () => { reject(new Error('请求失败')); cleanup(); };
-        const timer = setTimeout(() => { reject(new Error('超时')); cleanup(); }, timeout);
-        function cleanup(){ clearTimeout(timer); delete window[callback]; if(script.parentNode) script.parentNode.removeChild(script); }
-        document.head.appendChild(script);
-    });
+const logArea = document.getElementById('logArea');
+function log(msg, type='info'){
+    const t = new Date().toLocaleTimeString();
+    const cls = type==='ok'?'ok':type==='err'?'err':'info';
+    logArea.innerHTML += `<span class="${cls}">[${t}] ${msg}</span>\n`;
+    logArea.scrollTop = logArea.scrollHeight;
 }
+function clearLog(){ logArea.innerHTML=''; }
 
-// ======================= 新浪实时行情（JSONP方式） =======================
-async function fetchSinaQuote(code){
-    // 标准化代码
-    let fullCode = code.trim().toLowerCase();
-    if(!fullCode.startsWith('sh') && !fullCode.startsWith('sz')){
-        const pure = fullCode.replace(/[^0-9]/g,'');
-        fullCode = (pure.startsWith('6')||pure.startsWith('9')) ? 'sh'+pure : 'sz'+pure;
-    }
-    const url = `https://hq.sinajs.cn/list=${fullCode}`;
-    const text = await jsonp(url);
-    // 解析新浪返回格式：var hq_str_sh600519="名称,今开,昨收,现价,最高,最低,..."
-    const inner = (typeof text === 'string') ? text.split('"')[1] : '';
-    if(!inner) throw new Error('未找到该证券');
-    const parts = inner.split(',');
-    if(parts.length < 30) throw new Error('数据不完整');
-    return {
-        code: fullCode,
-        name: parts[0],
-        open: parseFloat(parts[1]) || 0,
-        preClose: parseFloat(parts[2]) || 0,
-        price: parseFloat(parts[3]) || 0,
-        high: parseFloat(parts[4]) || 0,
-        low: parseFloat(parts[5]) || 0,
-        volume: parseFloat(parts[8]) || 0,
-        amount: parseFloat(parts[9]) || 0,
-        changePercent: parseFloat(parts[3]) && parseFloat(parts[2]) ? ((parseFloat(parts[3])-parseFloat(parts[2]))/parseFloat(parts[2])*100) : 0,
-    };
-}
+async function testCode(){
+    const code = document.getElementById('codeInput').value.trim();
+    document.getElementById('testResult').innerHTML = '';
+    clearLog();
+    log('开始测试: '+code, 'info');
 
-// ======================= 腾讯K线数据（JSONP方式） =======================
-async function fetchTencentKline(code, count=200){
-    let fullCode = code.trim().toLowerCase();
-    if(!fullCode.startsWith('sh') && !fullCode.startsWith('sz')){
-        const pure = fullCode.replace(/[^0-9]/g,'');
-        fullCode = (pure.startsWith('6')||pure.startsWith('9')) ? 'sh'+pure : 'sz'+pure;
-    }
-    const market = fullCode.slice(0,2);
-    const pure = fullCode.slice(2);
-    const url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${market}${pure},day,,,${count},qfq`;
-    const data = await jsonp(url);
-    if(!data || !data.data || !data.data[`${market}${pure}`]) throw new Error('K线获取失败');
-    const klines = data.data[`${market}${pure}`].qfqday || data.data[`${market}${pure}`].day || [];
-    return klines.map(k => ({
-        date: k[0],
-        open: parseFloat(k[1]),
-        close: parseFloat(k[2]),
-        high: parseFloat(k[3]),
-        low: parseFloat(k[4]),
-        volume: parseFloat(k[5]) || 0
-    }));
-}
-
-// ======================= 新浪大盘指数（JSONP） =======================
-async function fetchSinaIndex(code){
-    const url = `https://hq.sinajs.cn/list=${code}`;
-    const text = await jsonp(url);
-    const inner = (typeof text === 'string') ? text.split('"')[1] : '';
-    if(!inner) return null;
-    const parts = inner.split(',');
-    return {
-        name: parts[0],
-        price: parseFloat(parts[1]) || 0,
-        change: parseFloat(parts[3]) || 0,
-        changePercent: parseFloat(parts[2]) || 0
-    };
-}
-
-// ======================= 技术指标 =======================
-function SMA(arr, n){
-    const res = []; let sum = 0;
-    for(let i=0; i<arr.length; i++){
-        sum += arr[i];
-        if(i >= n-1){
-            res.push(sum/n);
-            sum -= arr[i-n+1];
-        } else res.push(null);
-    }
-    return res;
-}
-function EMA(arr, n){
-    const res = []; const k = 2/(n+1);
-    let prev = arr.slice(0,n).reduce((a,b)=>a+b,0)/n;
-    for(let i=0; i<arr.length; i++){
-        if(i < n-1){ res.push(null); continue; }
-        if(i === n-1) res.push(prev);
-        else { prev = arr[i]*k + prev*(1-k); res.push(prev); }
-    }
-    return res;
-}
-function RSI(kl, n=14){
-    const closes = kl.map(k=>k.close);
-    const gains=[], losses=[];
-    for(let i=1;i<closes.length;i++){
-        const d=closes[i]-closes[i-1];
-        gains.push(d>0?d:0); losses.push(d<0?-d:0);
-    }
-    let avgG=gains.slice(0,n).reduce((a,b)=>a+b,0)/n;
-    let avgL=losses.slice(0,n).reduce((a,b)=>a+b,0)/n;
-    const rsiArr = [100-100/(1+avgG/(avgL||1e-10))];
-    for(let i=n;i<gains.length;i++){
-        avgG = (avgG*(n-1)+gains[i])/n;
-        avgL = (avgL*(n-1)+losses[i])/n;
-        rsiArr.push(100-100/(1+avgG/(avgL||1e-10)));
-    }
-    return rsiArr;
-}
-function BIAS(kl, n=20){
-    const closes = kl.map(k=>k.close);
-    const ma = SMA(closes, n);
-    return closes.map((c,i)=> ma[i] ? (c-ma[i])/ma[i]*100 : null);
-}
-function MACD(kl, s=12, l=26, m=9){
-    const closes = kl.map(k=>k.close);
-    const emaS = EMA(closes, s), emaL = EMA(closes, l);
-    const dif = closes.map((_,i)=> (i>=l-1 && emaS[i] && emaL[i]) ? emaS[i]-emaL[i] : null);
-    const validDif = dif.filter(v=>v!==null);
-    const deaVals = EMA(validDif, m);
-    const dea = new Array(dif.length).fill(null);
-    let di=0;
-    for(let i=0;i<dif.length;i++) if(dif[i]!==null && di<deaVals.length) dea[i]=deaVals[di++];
-    const bar = dif.map((d,i)=> (d!==null&&dea[i]!==null) ? (d-dea[i])*2 : null);
-    return {dif, dea, bar};
-}
-
-// ======================= 红绿灯分析 =======================
-function analyzeSignal(kl){
-    if(kl.length<60) return {conclusion:'⚪ 数据不足（需≥60根K线）', reds:[], greens:[], rsi:'--', bias:'--'};
-    const closes = kl.map(k=>k.close), volumes = kl.map(k=>k.volume);
-    const last = kl[kl.length-1], prev = kl[kl.length-2];
-    const dailyChg = (last.close-prev.close)/prev.close*100;
-    const ma5 = SMA(closes,5), ma10 = SMA(closes,10), ma20 = SMA(closes,20), ma60 = SMA(closes,60);
-    const rsiArr = RSI(kl,14), biasArr = BIAS(kl,20);
-    const macdData = MACD(kl);
-    const lastRSI = rsiArr[rsiArr.length-1];
-    const lastBIAS = biasArr[biasArr.length-1];
-    const lastDIF = macdData.dif[macdData.dif.length-1];
-    const lastDEA = macdData.dea[macdData.dea.length-1];
-    const prevDIF = macdData.dif[macdData.dif.length-2];
-    const prevDEA = macdData.dea[macdData.dea.length-2];
-
-    const reds = [], greens = [];
-
-    // 红灯
-    if(dailyChg > 3) reds.push(`前日涨幅过大(${dailyChg.toFixed(2)}%)`);
-    const chg5 = kl.length>=6 ? (last.close-kl[kl.length-6].close)/kl[kl.length-6].close*100 : 0;
-    if(chg5 > 10) reds.push(`近5日涨幅过大(${chg5.toFixed(2)}%)`);
-    if(lastBIAS !== null && lastBIAS > 8) reds.push(`乖离率偏高(${lastBIAS.toFixed(2)}%)`);
-    if(lastRSI !== null && lastRSI > 75) reds.push(`RSI超买(${lastRSI.toFixed(1)})`);
-    if(ma60[ma60.length-1] && ma60[ma60.length-6] && ma60[ma60.length-1] < ma60[ma60.length-6]) reds.push('MA60趋势向下');
-    const body=Math.abs(last.close-last.open), us=last.high-Math.max(last.close,last.open);
-    if(us > body*2 && body>0 && last.close<prev.close) reds.push('长上影冲高回落');
-
-    // 绿灯
-    const maOk = ma5[ma5.length-1] && ma10[ma10.length-1] && ma20[ma20.length-1] && ma60[ma60.length-1] &&
-        ma5[ma5.length-1] > ma10[ma10.length-1] && ma10[ma10.length-1] > ma20[ma20.length-1] && ma20[ma20.length-1] > ma60[ma60.length-1];
-    if(maOk) greens.push('均线多头排列');
-    if(lastRSI !== null && lastRSI >= 30 && lastRSI <= 60) greens.push('RSI健康区间');
-    if(lastDIF !== null && lastDEA !== null && lastDIF > lastDEA) greens.push('MACD多头');
-    if(prevDIF !== null && prevDEA !== null && lastDIF !== null && lastDEA !== null && prevDIF <= prevDEA && lastDIF > lastDEA) greens.push('MACD金叉');
-    if(lastBIAS !== null && lastBIAS >= -5 && lastBIAS <= 3) greens.push('乖离率合理');
-    const mv5 = SMA(volumes,5);
-    if(mv5[mv5.length-1] && volumes[volumes.length-1] > mv5[mv5.length-1]*1.2 && last.close > last.open) greens.push('放量上涨');
-
-    let conclusion;
-    if(reds.length > 0) conclusion = '🔴 不建议买入';
-    else if(greens.length >= 4) conclusion = '🟢 满足买入条件';
-    else conclusion = '🟡 继续观望';
-
-    return { conclusion, reds, greens, rsi: lastRSI?.toFixed(1)||'--', bias: lastBIAS?.toFixed(2)||'--' };
-}
-
-// ======================= 分析面板逻辑 =======================
-async function analyzeStock(){
-    const code = $('#codeInput').value.trim();
-    if(!code) return toast('请输入代码');
-    $('#analyzeResult').innerHTML = '<div style="text-align:center;color:var(--sub);">⏳ 分析中...</div>';
+    // 测试1：新浪行情
+    log('测试1: 新浪JSONP行情...', 'info');
     try{
-        const quote = await fetchSinaQuote(code);
-        const kl = await fetchTencentKline(code, 200);
-        const result = analyzeSignal(kl);
-        const chgClass = quote.changePercent>=0 ? 'tag-red' : 'tag-green';
-        const chgSign = quote.changePercent>=0 ? '+' : '';
-        $('#analyzeResult').innerHTML = `
-            <div style="margin-bottom:6px;"><b>${quote.name}</b> (${quote.code})</div>
-            <div style="font-size:1.8rem;font-weight:800;">${quote.price.toFixed(2)}</div>
-            <span class="tag ${chgClass}">${chgSign}${quote.changePercent.toFixed(2)}%</span>
-            <div class="grid2" style="margin-top:8px;">
-                <div class="item"><span class="lbl">今开</span>${quote.open.toFixed(2)}</div>
-                <div class="item"><span class="lbl">昨收</span>${quote.preClose.toFixed(2)}</div>
-                <div class="item"><span class="lbl">最高</span>${quote.high.toFixed(2)}</div>
-                <div class="item"><span class="lbl">最低</span>${quote.low.toFixed(2)}</div>
-                <div class="item"><span class="lbl">成交量</span>${(quote.volume/10000).toFixed(1)}万手</div>
-                <div class="item"><span class="lbl">RSI(14)</span>${result.rsi}</div>
-            </div>
-            <div style="margin-top:10px;font-size:1.1rem;font-weight:700;">${result.conclusion}</div>
-            ${result.reds.length ? '<div style="color:var(--red);font-size:0.78rem;">⚠️ '+result.reds.join(' | ')+'</div>' : ''}
-            ${result.greens.length ? '<div style="color:var(--green);font-size:0.78rem;">✅ '+result.greens.join(' | ')+'</div>' : ''}
-        `;
+        const result = await testSinaAPI(code);
+        log('✅ 新浪行情成功: '+result.name+' 价格:'+result.price, 'ok');
+        document.getElementById('testResult').innerHTML = `
+            <div style="background:rgba(46,213,115,0.1);padding:10px;border-radius:8px;">
+                <b>${result.name}</b> 价格:${result.price.toFixed(2)} 涨幅:${result.changePercent.toFixed(2)}%
+            </div>`;
     }catch(e){
-        $('#analyzeResult').innerHTML = `<div style="color:var(--red);">❌ ${e.message}<br><small>请检查代码是否正确（支持股票/ETF/可转债）</small></div>`;
+        log('❌ 新浪行情失败: '+e.message, 'err');
+        document.getElementById('testResult').innerHTML = `<div style="color:#ff4757;">新浪行情失败: ${e.message}</div>`;
     }
-}
 
-// ======================= 市场面板 =======================
-async function loadIndexes(){
-    const codes = [
-        {code:'s_sh000001', name:'上证'},{code:'s_sz399001', name:'深证'},
-        {code:'s_sz399006', name:'创业板'},{code:'s_sh000688', name:'科创50'},
-        {code:'int_dji', name:'道琼斯'},{code:'int_nasdaq', name:'纳斯达克'}
-    ];
-    let html = '';
-    for(const idx of codes){
-        try{
-            const d = await fetchSinaIndex(idx.code);
-            if(d){
-                const color = d.changePercent>=0 ? 'var(--red)' : 'var(--green)';
-                html += `<div class="idx-card">
-                    <div class="n">${d.name||idx.name}</div>
-                    <div class="p" style="color:${color}">${d.price.toFixed(2)}</div>
-                    <div class="c" style="color:${color}">${d.changePercent>=0?'+':''}${d.changePercent.toFixed(2)}%</div>
-                </div>`;
-            }
-        }catch(e){}
-    }
-    $('#indexArea').innerHTML = html || '加载失败，请刷新重试';
-}
-
-async function loadSectors(){
-    // 新浪行业板块接口
+    // 测试2：腾讯K线
+    log('测试2: 腾讯K线JSONP...', 'info');
     try{
-        const url = 'https://vip.stock.finance.sina.com.cn/q/go.php/vIndustryRank/kind/sshy/num/15/format/json';
-        const resp = await fetch(url);
-        const text = await resp.text();
-        // 新浪返回的是JS变量格式，简单解析
-        const match = text.match(/\{[\s\S]*\}/);
-        if(match){
-            const data = JSON.parse(match[0]);
-            let html = '';
-            if(data && data.data){
-                data.data.forEach(d => {
-                    const chg = parseFloat(d[3]) || 0;
-                    const cls = chg>=0 ? 'red' : 'green';
-                    html += `<div class="row"><span>${d[1]}</span><span style="color:var(--${cls});">${chg>=0?'+':''}${chg.toFixed(2)}%</span></div>`;
+        const kl = await testTencentAPI(code);
+        log('✅ 腾讯K线成功: '+kl.length+'根K线', 'ok');
+    }catch(e){
+        log('❌ 腾讯K线失败: '+e.message, 'err');
+    }
+
+    // 测试3：东方财富API
+    log('测试3: 东方财富fetch...', 'info');
+    try{
+        const name = await testEastmoneyAPI(code);
+        log('✅ 东方财富成功: '+name, 'ok');
+    }catch(e){
+        log('❌ 东方财富失败: '+e.message, 'err');
+    }
+
+    log('测试完成', 'info');
+}
+
+// 新浪JSONP测试
+function testSinaAPI(code){
+    return new Promise((resolve, reject)=>{
+        const fullCode = code.startsWith('6')?'sh'+code:'sz'+code;
+        const url = `https://hq.sinajs.cn/list=${fullCode}`;
+        log('请求URL: '+url, 'info');
+        const cb = '_sina_'+Date.now();
+        window[cb] = function(data){
+            try{
+                const inner = (typeof data==='string')?data.split('"')[1]:'';
+                if(!inner) throw new Error('无数据');
+                const p = inner.split(',');
+                resolve({
+                    name:p[0], price:parseFloat(p[3]), changePercent:((parseFloat(p[3])-parseFloat(p[2]))/parseFloat(p[2])*100)
                 });
-            }
-            $('#sectorArea').innerHTML = html || '暂无数据';
-        }
-    }catch(e){
-        // 备用：显示提示
-        $('#sectorArea').innerHTML = '<div style="text-align:center;color:var(--sub);">板块数据加载失败，请点击刷新重试</div>';
-    }
-}
-
-// ======================= 选股扫描 =======================
-let scanAbort = false;
-async function startScan(){
-    scanAbort = false;
-    $('#scanBtn').style.display='none'; $('#stopBtn').style.display='block';
-    $('#scanProgress').textContent = '正在获取A股列表...';
-    let allStocks = [];
-    // 从东方财富获取（此接口在file://下可能被CORS拦截，如果失败则用备用方案）
-    try{
-        for(let page=1; page<=5; page++){
-            if(scanAbort) break;
-            const url = `https://push2.eastmoney.com/api/qt/clist/get?pn=${page}&pz=500&po=1&np=1&fltt=2&invt=2&fid=f3&fs=m:0+t:6,m:0+t:80,m:1+t:2,m:1+t:23&fields=f2,f3,f12,f14,f20`;
-            const resp = await fetch(url, {headers:{'Referer':'https://quote.eastmoney.com/'}});
-            const data = await resp.json();
-            if(data && data.data && data.data.diff){
-                const filtered = data.data.diff.filter(d => d.f2/100 <= 150 && d.f20 >= 100e8);
-                allStocks.push(...filtered.map(d=>({code:d.f12, name:d.f14, price:d.f2/100, chg:d.f3})));
-            }
-            await new Promise(r=>setTimeout(r,200));
-        }
-    }catch(e){
-        $('#scanProgress').textContent = '⚠️ 全市场扫描需要HTTPS环境。请将本文件部署到GitHub Pages后使用此功能。';
-        resetScan();
-        return;
-    }
-    if(scanAbort){ resetScan(); return; }
-    const unique = Array.from(new Map(allStocks.map(s=>[s.code,s])).values());
-    $('#scanProgress').textContent = `共 ${unique.length} 只符合条件，逐只检测...`;
-    let candidates = [];
-    for(let i=0; i<unique.length; i++){
-        if(scanAbort) break;
-        const s = unique[i];
-        $('#scanProgress').textContent = `检测 ${i+1}/${unique.length} ... ${s.name}`;
-        try{
-            const kl = await fetchTencentKline(s.code, 200);
-            const result = analyzeSignal(kl);
-            if(result.conclusion.includes('🟢')){
-                candidates.push({...s, rsi:result.rsi, bias:result.bias});
-            }
-        }catch(e){}
-        await new Promise(r=>setTimeout(r,100));
-    }
-    if(scanAbort){ resetScan(); return; }
-    let html = '';
-    if(candidates.length===0){
-        html = '<div style="text-align:center;color:var(--sub);">当前无符合买入条件的股票</div>';
-    }else{
-        candidates.forEach(c=>{
-            html += `<div class="result-box"><b>${c.name}</b>(${c.code}) 价格:${c.price.toFixed(2)} 涨幅:${c.chg.toFixed(2)}% RSI:${c.rsi}</div>`;
-        });
-    }
-    $('#scanResult').innerHTML = html;
-    resetScan();
-}
-
-function stopScan(){ scanAbort = true; }
-function resetScan(){
-    $('#scanBtn').style.display='block'; $('#stopBtn').style.display='none';
-    $('#scanProgress').textContent = '';
-}
-
-// ======================= 导航 =======================
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', function(){
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        this.classList.add('active');
-        document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-        $('#panel-'+this.dataset.tab).classList.add('active');
-        if(this.dataset.tab==='market'){ loadIndexes(); loadSectors(); }
+            }catch(e){ reject(e); }
+            delete window[cb];
+        };
+        const s = document.createElement('script');
+        s.src = url;
+        s.onerror = ()=>reject(new Error('网络错误'));
+        setTimeout(()=>reject(new Error('超时')), 8000);
+        document.head.appendChild(s);
     });
-});
+}
 
-// 初始加载
-loadIndexes(); loadSectors();
+// 腾讯K线JSONP测试
+function testTencentAPI(code){
+    return new Promise((resolve, reject)=>{
+        const fullCode = (code.startsWith('6')?'sh':'sz')+code;
+        const url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=${fullCode},day,,,10,qfq`;
+        log('请求URL: '+url, 'info');
+        const cb = '_tencent_'+Date.now();
+        window[cb] = function(data){
+            try{
+                const kls = data.data[fullCode].qfqday || data.data[fullCode].day;
+                resolve(kls);
+            }catch(e){ reject(e); }
+            delete window[cb];
+        };
+        const s = document.createElement('script');
+        s.src = url + '&callback='+cb;
+        s.onerror = ()=>reject(new Error('网络错误'));
+        setTimeout(()=>reject(new Error('超时')), 8000);
+        document.head.appendChild(s);
+    });
+}
+
+// 东方财富fetch测试
+async function testEastmoneyAPI(code){
+    const pure = code.replace(/[^0-9]/g,'');
+    const secid = (pure.startsWith('6')?'1.':'0.')+pure;
+    const url = `https://push2.eastmoney.com/api/qt/stock/get?secid=${secid}&fields=f58`;
+    log('请求URL: '+url, 'info');
+    const resp = await fetch(url, {headers:{'Referer':'https://quote.eastmoney.com/'}});
+    const data = await resp.json();
+    return data.data.f58;
+}
+
+// 初始自动测试
+log('🟢 诊断模式已启动', 'ok');
+log('点击"测试"按钮开始', 'info');
 </script>
 </body>
 </html>
